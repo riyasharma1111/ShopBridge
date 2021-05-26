@@ -1,0 +1,67 @@
+﻿@model IEnumerable<ShopBridge.Models.ProductMaster>
+@using ShopBridge.Models;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{ var CategoryList = (List<CategoryMaster>)Session["CategoryList"]; }
+<h2>Product List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Product Name
+        </th>
+        <th>
+            Item Number
+        </th>
+        <th>
+            Product Description
+        </th>
+        <th>
+            Category Name
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Weight)
+        </th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemNumer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductDescription)
+            </td>
+            <td>
+                @CategoryList.Where(x => x.CategoryId == item.CategoryId).Select(X => X.CategoryName).FirstOrDefault()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weight)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { ProductId = item.ProductId}) |
+                @Html.ActionLink("Delete", "Delete", new { ProductId = item.ProductId })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
